@@ -9,7 +9,12 @@
         <v-col :cols="10" class="justify-content">
           <h1>Headlines</h1>
           <v-layout row v-if="fetchedData">
-            <v-flex lg3 v-for="(item, index) in news" :key="item.id" class="space-bottom">
+            <v-flex
+              lg3
+              v-for="(item, index) in news.data.articles"
+              :key="item.id"
+              class="space-bottom"
+            >
               <v-card class="mx-auto" max-width="344" outlined>
                 <v-list-item three-line>
                   <v-list-item-content
@@ -28,8 +33,9 @@
 </template>
 
 <script>
-import { data } from "../shared";
+// import { data } from "../shared";
 import Sources from "@/components/Sources.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Home",
@@ -38,12 +44,12 @@ export default {
   },
   data() {
     return {
-      news: [
-        {
-          author: "",
-          urlToImage: ""
-        }
-      ],
+      // news: [
+      //   {
+      //     author: "",
+      //     urlToImage: ""
+      //   }
+      // ],
       overlay: false,
       rowLength: 4,
       fetchedData: false,
@@ -55,13 +61,25 @@ export default {
   },
   async created() {
     await this.loadNews();
+
+    console.log("this", this.news);
+  },
+  computed: {
+    // news() {
+    //   return this.$store.state.news;
+    // }
+    ...mapState(["news"])
   },
   methods: {
+    ...mapActions(["getNewsAction"]),
     async loadNews() {
-      await data.getNews().then(res => {
-        this.news = res["data"]["articles"];
-        this.fetchedData = true;
-      });
+      // await data.getNews().then(res => {
+      //   // this.news = res["data"]["articles"];
+
+      //   this.fetchedData = true;
+      // });
+      await this.getNewsAction();
+      this.fetchedData = true;
     },
     readMore() {
       this.readMore = true;
@@ -71,8 +89,8 @@ export default {
         if (this.fetchedData) {
           let card1 = `
            <v-list-item-content height="400px">
-                <v-list-item-subtitle>${this.news[index].publishedAt}</v-list-item-subtitle>
-                <v-list-item-title>${this.news[index].title}</v-list-item-title>
+                <v-list-item-subtitle>${this.news.data.articles[index].publishedAt}</v-list-item-subtitle>
+                <v-list-item-title>${this.news.data.articles[index].title}</v-list-item-title>
 
                 <v-list-item-subtitle class="subtitle-style">
                   {{item.content && item.content.slice(0, 200)}}
@@ -85,11 +103,11 @@ export default {
 
           let card2 = `
             <v-list-item-content>
-                    <img src="${this.news[index].urlToImage}" alt="image"/>
+                    <img src="${this.news.data.articles[index].urlToImage}" alt="image"/>
             </v-list-item-content>
       `;
 
-          if (this.news[index]) {
+          if (this.news.data.articles[index]) {
             return this.rowLength % 2 ||
               (this.rowLength * 2 + index) % (this.rowLength * 2) >=
                 this.rowLength

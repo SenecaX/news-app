@@ -45,7 +45,7 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-for="headline in headlines" :key="headline.name" link>
+        <v-list-item v-for="headline in news.data.articles" :key="headline.name" link>
           <!-- <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>-->
@@ -65,19 +65,14 @@
 </template>
 
 <script>
-import { data } from "../shared";
+// import { data } from "../shared";
 import { mdiPuzzleEdit } from "@mdi/js";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
     return {
-      headlines: [],
       drawer: true,
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard" },
-        { title: "Photos", icon: "mdi-image" },
-        { title: "About", icon: "mdi-help-box" }
-      ],
       color: "primary",
       colors: ["primary", "blue", "success", "red", "teal"],
       right: false,
@@ -92,8 +87,11 @@ export default {
 
   async created() {
     await this.loadHeadlines();
+
+    console.log("news", this.news);
   },
   computed: {
+    ...mapState(["news"]),
     bg() {
       return this.background
         ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
@@ -101,10 +99,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["getNewsAction"]),
     async loadHeadlines() {
-      await data.getNews().then(res => {
-        this.headlines = res["data"]["articles"];
-      });
+      // await data.getNews().then(res => {
+      //   this.headlines = res["data"]["articles"];
+      // });
+
+      await this.getNewsAction();
     },
     goToHeadline(headline) {
       // this.$emit("newlySelectedHeadline", headline);

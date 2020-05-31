@@ -44,7 +44,7 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-for="source in sources" :key="source.name" link>
+        <v-list-item v-for="source in sources.data.sources" :key="source.name" link>
           <!-- <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>-->
@@ -59,7 +59,8 @@
 </template>
 
 <script>
-import { data } from "../shared";
+import { mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -75,11 +76,11 @@ export default {
       permanent: true,
       miniVariant: false,
       expandOnHover: false,
-      background: false,
-      sources: []
+      background: false
     };
   },
   computed: {
+    ...mapState(["sources"]),
     bg() {
       return this.background
         ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
@@ -88,12 +89,15 @@ export default {
   },
   async created() {
     await this.loadSources();
+    console.log("sources", this.sources);
   },
   methods: {
+    ...mapActions(["getSourcesAction"]),
     async loadSources() {
-      await data.getSources().then(res => {
-        this.sources = res["data"]["sources"];
-      });
+      // await data.getSources().then(res => {
+      //   this.sources = res["data"]["sources"];
+      // });
+      await this.getSourcesAction();
     },
     gotoSource(source) {
       window.open(source.url);
