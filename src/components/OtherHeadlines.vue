@@ -85,7 +85,8 @@ export default {
       miniVariant: false,
       expandOnHover: false,
       background: false,
-      editFont: mdiPuzzleEdit
+      editFont: mdiPuzzleEdit,
+      childMessage: ""
     };
   },
 
@@ -107,7 +108,7 @@ export default {
     },
     goToHeadline(headline) {
       // this.$emit("newlySelectedHeadline", headline);
-      console.log(headline);
+      this.$emit("newlySelectedHeadline", headline);
     },
     edit(value) {
       console.log(value);

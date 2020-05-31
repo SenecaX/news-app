@@ -3,17 +3,17 @@
     <v-container>
       <v-row>
         <v-col :cols="2">
-          <OtherHeadlines></OtherHeadlines>
+          <OtherHeadlines v-on:newlySelectedHeadline="otherHeadlinesClick"></OtherHeadlines>
         </v-col>
 
         <v-col :cols="10">
           <v-layout row>
-            <h1>{{this.selected.title}}</h1>
+            <h1>{{this.news.title}}</h1>
             <div>
-              <img :src="this.selected.urlToImage" alt="image" style="width: 50%; height: 50vh;" />
+              <img :src="this.news.urlToImage" alt="image" style="width: 50%; height: 50vh;" />
             </div>
-            <p>{{this.selected.publishedAt}}</p>
-            <p>{{this.selected.content}}</p>
+            <p>{{this.news.publishedAt}}</p>
+            <p>{{this.news.content}}</p>
           </v-layout>
         </v-col>
       </v-row>
@@ -30,10 +30,18 @@ export default {
   },
   data() {
     return {
-      news: this.selected
+      news: this.selected,
+      receivingFromChild: ""
     };
   },
-  created() {}
+  created() {},
+  methods: {
+    otherHeadlinesClick(value) {
+      this.receivingFromChild = value;
+      this.news = this.receivingFromChild;
+      console.log("news", this.news);
+    }
+  }
 };
 </script>
 
