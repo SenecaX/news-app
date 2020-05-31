@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import SelectedHeadline from "../views/SelectedHeadline";
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,12 @@ const routes = [
     path: "/hello",
     name: "HelloWorld",
     component: Home,
+  },
+  {
+    path: "/selected",
+    name: "SelectedHeadline",
+    component: SelectedHeadline,
+    props: true,
   },
   {
     path: "/about",

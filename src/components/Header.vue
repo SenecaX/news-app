@@ -10,7 +10,8 @@
 
 <script>
 export default {
-  props: {}
+  props: {},
+  components: {}
 };
 </script>
 

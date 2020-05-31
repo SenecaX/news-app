@@ -1,26 +1,41 @@
 <template>
   <div class="home">
-    <v-container grid-list-lg>
-      <h1>Headlines</h1>
-      <v-layout row v-if="fetchedData">
-        <v-flex lg3 v-for="(item, index) in 20" :key="item.id" class="space-bottom">
-          <v-card class="mx-auto" max-width="344" outlined>
-            <v-list-item three-line>
-              <v-list-item-content height="400px" v-html="swapCondition(index)"></v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-flex>
-      </v-layout>
+    <v-container fluid>
+      <v-row>
+        <v-col :cols="2">
+          <Sources></Sources>
+        </v-col>
+
+        <v-col :cols="10" class="justify-content">
+          <h1>Headlines</h1>
+          <v-layout row v-if="fetchedData">
+            <v-flex lg3 v-for="(item, index) in news" :key="item.id" class="space-bottom">
+              <v-card class="mx-auto" max-width="344" outlined>
+                <v-list-item three-line>
+                  <v-list-item-content
+                    height="400px"
+                    v-html="swapCondition(index)"
+                    v-on:click="selectedHeadling(item)"
+                  ></v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
 import { data } from "../shared";
+import Sources from "@/components/Sources.vue";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    Sources
+  },
   data() {
     return {
       news: [
@@ -53,7 +68,6 @@ export default {
     },
     swapCondition(index) {
       if (index !== -1) {
-        console.log(index, "entered");
         if (this.fetchedData) {
           let card1 = `
            <v-list-item-content height="400px">
@@ -70,14 +84,9 @@ export default {
       `;
 
           let card2 = `
-           <v-list-item-content>
+            <v-list-item-content>
                     <img src="${this.news[index].urlToImage}" alt="image"/>
-                    <v-fade-transition>
-                      <v-overlay v-if="hover" absolute color="#036358">
-                        <v-btn>See more info</v-btn>
-                      </v-overlay>
-                    </v-fade-transition>
-                  </v-list-item-content>
+            </v-list-item-content>
       `;
 
           if (this.news[index]) {
@@ -93,6 +102,12 @@ export default {
           }
         }
       }
+    },
+    selectedHeadling(item) {
+      this.$router.push({
+        name: "SelectedHeadline",
+        params: { selected: item }
+      });
     }
   }
 };
@@ -118,5 +133,11 @@ img {
 
 .subtitle-style {
   height: 148px;
+}
+
+@media only screen and (min-width: 1024px) {
+  .justify-content {
+    padding-right: 4em;
+  }
 }
 </style>
