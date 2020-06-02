@@ -5,9 +5,11 @@ import { GET_NEWS, GET_SOURCES } from "./mutation-types";
 
 Vue.use(Vuex);
 
-const state = {
+const state = () => ({
   news: [],
-};
+  sources: [],
+});
+
 const mutations = {
   [GET_NEWS](state, news) {
     state.news = news;
@@ -27,7 +29,22 @@ const actions = {
     commit(GET_SOURCES, sources);
   },
 };
-const getters = {};
+const getters = {
+  getNewsBySourceName: (state) => (sourceName) => {
+    return state.news.data.articles.find((n) => n.source.name === sourceName);
+    // return state.news.data.articles.filter(
+    //   (n) => n.source.name === element.name
+    // );
+
+    // return state.news.data.articles.find((n) =>
+    //   sourceName.includes(n.source.name)
+    // );
+  },
+  //   getNewsBySourceName: (state) => (sourceName) =>
+  //     state.news.find((n) => n.sourceName === sourceName),
+  //   // getHeroById: (state) => (id) => state.heroes.find((h) => h.id === id),
+  // };
+};
 
 export default new Vuex.Store({
   state,

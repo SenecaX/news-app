@@ -1,22 +1,4 @@
 <template>
-  <!-- <v-row justify="space-around">
-      <v-col cols="12">
-        <v-select v-model="color" :items="colors" label="Color"></v-select>
-      </v-col>
-
-      <v-switch v-model="drawer" class="ma-2" label="v-model"></v-switch>
-
-      <v-switch v-model="permanent" class="ma-2" label="Permanent"></v-switch>
-
-      <v-switch v-model="miniVariant" class="ma-2" label="Mini variant"></v-switch>
-
-      <v-switch v-model="expandOnHover" class="ma-2" label="Expand on hover"></v-switch>
-
-      <v-switch v-model="background" class="ma-2" label="Background"></v-switch>
-
-      <v-switch v-model="right" class="ma-2" label="Right"></v-switch>
-  </v-row>-->
-
   <div>
     <v-navigation-drawer
       :width="330"
@@ -32,29 +14,19 @@
     >
       <v-list dense nav class="py-0">
         <v-list-item two-line :class="miniVariant && 'px-0'">
-          <!-- <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/men/81.jpg" />
-          </v-list-item-avatar>-->
-
           <v-list-item-content>
             <v-list-item-title>Other Headlines</v-list-item-title>
-
-            <!-- <v-list-item-subtitle>Subtext</v-list-item-subtitle> -->
           </v-list-item-content>
         </v-list-item>
 
         <v-divider></v-divider>
 
         <v-list-item v-for="headline in news.data.articles" :key="headline.name" link>
-          <!-- <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>-->
-
           <v-list-item-content>
             <v-list-item-title>
               <span v-on:click="goToHeadline(headline)">{{ headline.title.substring(0, 35) }}</span>
-              <span v-on:click="edit(headline.title)" style="padding-left: 35px;">
-                <v-icon>{{ editFont }}</v-icon>
+              <span v-on:click="edit(headline)" style="padding-left: 35px;">
+                <EditPopup :parentData="headline"></EditPopup>
               </span>
             </v-list-item-title>
           </v-list-item-content>
@@ -68,8 +40,13 @@
 // import { data } from "../shared";
 import { mdiPuzzleEdit } from "@mdi/js";
 import { mapState, mapActions } from "vuex";
+import EditPopup from "@/components/EditPopup.vue";
 
 export default {
+  components: {
+    EditPopup
+  },
+  props: {},
   data() {
     return {
       drawer: true,
@@ -81,14 +58,13 @@ export default {
       expandOnHover: false,
       background: false,
       editFont: mdiPuzzleEdit,
-      childMessage: ""
+      childMessage: "",
+      parentData: {}
     };
   },
 
   async created() {
     await this.loadHeadlines();
-
-    console.log("news", this.news);
   },
   computed: {
     ...mapState(["news"]),
@@ -112,7 +88,7 @@ export default {
       this.$emit("newlySelectedHeadline", headline);
     },
     edit(value) {
-      console.log(value);
+      this.parentData = value;
     }
   }
 };

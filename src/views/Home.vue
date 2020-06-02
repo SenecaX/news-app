@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col :cols="2">
-          <Sources></Sources>
+          <Sources v-on:selectedSource="onClickSelectedSource"></Sources>
         </v-col>
 
         <v-col :cols="10" class="justify-content">
@@ -35,7 +35,7 @@
 <script>
 // import { data } from "../shared";
 import Sources from "@/components/Sources.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -50,24 +50,31 @@ export default {
       //     urlToImage: ""
       //   }
       // ],
+      selectingSource: "",
+      receivingFromChild: "",
       overlay: false,
       rowLength: 4,
       fetchedData: false,
       imgObj: {
         hasImg: false,
         noImg: false
-      }
+      },
+      newsObj: null
     };
   },
   async created() {
     await this.loadNews();
-
-    console.log("this", this.news);
+  },
+  mounted() {
+    // Object.assign({}, this.newsObj);
+    // console.log("this", this.news);
+    // console.log(this.news.data.article);
   },
   computed: {
     // news() {
     //   return this.$store.state.news;
     // }
+    ...mapGetters(["getNewsBySourceName"]),
     ...mapState(["news"])
   },
   methods: {
@@ -89,8 +96,11 @@ export default {
         if (this.fetchedData) {
           let card1 = `
            <v-list-item-content height="400px">
+            <v-list-item-title>${this.news.data.articles[index].source.name}</v-list-item-title>
                 <v-list-item-subtitle>${this.news.data.articles[index].publishedAt}</v-list-item-subtitle>
                 <v-list-item-title>${this.news.data.articles[index].title}</v-list-item-title>
+               
+
 
                 <v-list-item-subtitle class="subtitle-style">
                   {{item.content && item.content.slice(0, 200)}}
@@ -126,6 +136,16 @@ export default {
         name: "SelectedHeadline",
         params: { selected: item }
       });
+    },
+    onClickSelectedSource(value) {
+      // console.log(value);
+      this.receivingFromChild = this.getNewsBySourceName(value);
+
+      if (this.receivingFromChild) {
+        // this.news.data.article.push(this.receivingFromChild);
+      }
+      // this.swapCondition(this.receivingFromChild);
+      // console.log("selecting", this.receivingFromChild);
     }
   }
 };

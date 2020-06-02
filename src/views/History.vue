@@ -21,27 +21,14 @@
   </v-content>
 </template>
 
+
 <script>
-import OtherHeadlines from "@/components/OtherHeadlines.vue";
 export default {
-  props: ["selected"],
-  components: {
-    OtherHeadlines
-  },
-  data() {
-    return {
-      news: this.selected,
-      receivingFromChild: ""
-    };
-  },
-  created() {},
-  methods: {
-    otherHeadlinesClick(value) {
-      this.receivingFromChild = value;
-      this.news = this.receivingFromChild;
-    }
+  props: {
+    source: String
   }
 };
 </script>
 
-<style></style>
+<style>
+</style>
