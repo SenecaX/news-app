@@ -4,6 +4,7 @@
       <v-toolbar-title class="headline">
         <span>News App</span>
         <v-btn small color="primary" v-on:click="goToHistory()">View History</v-btn>
+        <v-btn small color="primary">Wrong Api Call</v-btn>
       </v-toolbar-title>
     </v-toolbar>
   </nav>
