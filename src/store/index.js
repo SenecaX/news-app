@@ -1,13 +1,19 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { data } from "../shared/data";
-import { GET_NEWS, GET_SOURCES } from "./mutation-types";
+import {
+  GET_NEWS,
+  GET_SOURCES,
+  ADD_HISTORY,
+  GET_HISTORY,
+} from "./mutation-types";
 
 Vue.use(Vuex);
 
 const state = () => ({
   news: [],
   sources: [],
+  history: [],
 });
 
 const mutations = {
@@ -16,6 +22,9 @@ const mutations = {
   },
   [GET_SOURCES](state, sources) {
     state.sources = sources;
+  },
+  [ADD_HISTORY](state, history) {
+    state.history.push(history);
   },
 };
 
@@ -28,6 +37,14 @@ const actions = {
     const sources = await data.getSources();
     commit(GET_SOURCES, sources);
   },
+  async getNewsHistoryAction({ commit }) {
+    const history = this.state.history;
+    commit(GET_HISTORY, history);
+  },
+  async addHistoryAction({ commit }, addHistory) {
+    // const addHistory = data.addHero(addHistory);
+    commit(ADD_HISTORY, addHistory);
+  },
 };
 const getters = {
   getNewsBySourceName: (state) => (sourceName) => {
@@ -39,6 +56,9 @@ const getters = {
     // return state.news.data.articles.find((n) =>
     //   sourceName.includes(n.source.name)
     // );
+  },
+  getNewsHistory: (state) => () => {
+    return state.history;
   },
   //   getNewsBySourceName: (state) => (sourceName) =>
   //     state.news.find((n) => n.sourceName === sourceName),

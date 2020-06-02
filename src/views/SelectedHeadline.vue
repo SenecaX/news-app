@@ -23,6 +23,8 @@
 
 <script>
 import OtherHeadlines from "@/components/OtherHeadlines.vue";
+import { mapActions } from "vuex";
+
 export default {
   props: ["selected"],
   components: {
@@ -36,7 +38,9 @@ export default {
   },
   created() {},
   methods: {
-    otherHeadlinesClick(value) {
+    ...mapActions(["addHistoryAction"]),
+    async otherHeadlinesClick(value) {
+      await this.addHistoryAction(value);
       this.receivingFromChild = value;
       this.news = this.receivingFromChild;
     }

@@ -28,6 +28,17 @@ const getSources = async function() {
   }
 };
 
+// const addHistory = async function(history) {
+//   try {
+//     const response = await axios.post(`${API}/heroes`, hero);
+//     const addedHero = parseItem(response, 201);
+//     return addedHero;
+//   } catch (error) {
+//     console.error(error);
+//     return null;
+//   }
+// };
+
 export const data = {
   getNews,
   getSources,

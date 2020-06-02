@@ -78,7 +78,7 @@ export default {
     ...mapState(["news"])
   },
   methods: {
-    ...mapActions(["getNewsAction"]),
+    ...mapActions(["getNewsAction", "addHistoryAction"]),
     async loadNews() {
       // await data.getNews().then(res => {
       //   // this.news = res["data"]["articles"];
@@ -131,7 +131,9 @@ export default {
         }
       }
     },
-    selectedHeadling(item) {
+    async selectedHeadling(item) {
+      await this.addHistoryAction(item);
+
       this.$router.push({
         name: "SelectedHeadline",
         params: { selected: item }
