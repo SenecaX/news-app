@@ -8,6 +8,11 @@
 
         <v-col :cols="10" class="justify-content">
           <h1>Headlines</h1>
+
+          <v-flex xs6>
+            <v-text-field v-model="search" label="Search" @keyup="updateData();"></v-text-field>
+          </v-flex>
+
           <v-layout row v-if="fetchedData">
             <v-flex
               lg3
@@ -36,6 +41,7 @@
 // import { data } from "../shared";
 import Sources from "@/components/Sources.vue";
 import { mapState, mapActions, mapGetters } from "vuex";
+import { data } from "../shared";
 
 export default {
   name: "Home",
@@ -59,7 +65,8 @@ export default {
         hasImg: false,
         noImg: false
       },
-      newsObj: null
+      newsObj: null,
+      search: ""
     };
   },
   async created() {
@@ -148,6 +155,12 @@ export default {
       }
       // this.swapCondition(this.receivingFromChild);
       // console.log("selecting", this.receivingFromChild);
+    },
+    async updateData() {
+      console.log(this.search);
+      let test = await data.getSearchHeadline(this.search);
+      console.log(test);
+      // this.data.getSearchHeadline(this.search);
     }
   }
 };

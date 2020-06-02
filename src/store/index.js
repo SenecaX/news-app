@@ -6,6 +6,7 @@ import {
   GET_SOURCES,
   ADD_HISTORY,
   GET_HISTORY,
+  SEARCH_HEADLINE,
 } from "./mutation-types";
 
 Vue.use(Vuex);
