@@ -3,7 +3,7 @@
     <v-toolbar dark class="indigo">
       <v-toolbar-title class="headline">
         <span>News App</span>
-        <button v-on:click="goToHistory()">View History</button>
+        <v-btn small color="primary" v-on:click="goToHistory()">View History</v-btn>
       </v-toolbar-title>
     </v-toolbar>
   </nav>
