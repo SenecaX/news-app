@@ -97,7 +97,7 @@ export default {
       // });
       await this.getNewsAction();
       if (this.news.data && this.news.data?.articles) {
-        this.newsObj = { ...this.news };
+        this.newsObj = { ...this.news.data.articles };
         this.fetchedData = true;
       }
     },
@@ -109,9 +109,9 @@ export default {
         if (this.fetchedData) {
           let card1 = `
            <v-list-item-content height="400px">
-            <v-list-item-title>${this.newsObj?.data?.articles[index]?.source.name}</v-list-item-title>
-                <v-list-item-subtitle>${this.newsObj?.data?.articles[index]?.publishedAt}</v-list-item-subtitle>
-                <v-list-item-title>${this.newsObj?.data?.articles[index]?.title}</v-list-item-title>
+            <v-list-item-title>${this.newsObj[index]?.source.name}</v-list-item-title>
+                <v-list-item-subtitle>${this.newsObj[index]?.publishedAt}</v-list-item-subtitle>
+                <v-list-item-title>${this.newsObj[index]?.title}</v-list-item-title>
                 <v-list-item-subtitle class="subtitle-style">
                   {{item.content && item.content.slice(0, 200)}}
                   <span>
@@ -123,11 +123,11 @@ export default {
 
           let card2 = `
             <v-list-item-content>
-                    <img src="${this.newsObj.data.articles[index]?.urlToImage}" alt="image"/>
+                    <img src="${this.newsObj[index]?.urlToImage}" alt="image"/>
             </v-list-item-content>
       `;
 
-          if (this.newsObj?.data?.articles[index]) {
+          if (this.newsObj[index]) {
             return this.rowLength % 2 ||
               (this.rowLength * 2 + index) % (this.rowLength * 2) >=
                 this.rowLength
@@ -150,20 +150,12 @@ export default {
       });
     },
     onClickSelectedSource(value) {
-      // console.log(value);
-      this.receivingFromChild = this.getNewsBySourceName(value);
-
-      if (this.receivingFromChild) {
-        // this.news.data.article.push(this.receivingFromChild);
-      }
-      // this.swapCondition(this.receivingFromChild);
-      // console.log("selecting", this.receivingFromChild);
+      console.log("val", value);
+      this.newsObj = this.getNewsBySourceName(value);
     },
     async updateData() {
       console.log(this.search);
       this.newsObj = await data.getSearchHeadline(this.search);
-      // console.log(test);
-      // this.data.getSearchHeadline(this.search);
     }
   }
 };

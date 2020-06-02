@@ -6,7 +6,6 @@ import {
   GET_SOURCES,
   ADD_HISTORY,
   GET_HISTORY,
-  SEARCH_HEADLINE,
 } from "./mutation-types";
 
 Vue.use(Vuex);
@@ -49,6 +48,7 @@ const actions = {
 };
 const getters = {
   getNewsBySourceName: (state) => (sourceName) => {
+    console.log("sourcing", sourceName);
     return state.news.data.articles.find((n) => n.source.name === sourceName);
     // return state.news.data.articles.filter(
     //   (n) => n.source.name === element.name

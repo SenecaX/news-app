@@ -115,6 +115,7 @@ export default {
       this.$emit("selectedSource", "test");
     },
     selectSource(event, source) {
+      //TODO: refactor
       // this.arrOfSources.push(source);
 
       this.$emit("selectedSource", source.name);
@@ -123,6 +124,7 @@ export default {
 
       this.isSelected = !this.isSelected;
       this.sourceName = "test";
+      //todo: refactor
       event.target.style.backgroundColor = "#fff";
       event.target.style.color = "blue";
       event.target.style.paddingTop = "10px";
