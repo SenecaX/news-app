@@ -71,6 +71,9 @@ export default {
   },
   async created() {
     await this.loadNews();
+
+    // this.newsObj = this.news;
+    //     console.log(this.news);
   },
   mounted() {
     // Object.assign({}, this.newsObj);
@@ -93,7 +96,10 @@ export default {
       //   this.fetchedData = true;
       // });
       await this.getNewsAction();
-      this.fetchedData = true;
+      if (this.news.data && this.news.data?.articles) {
+        this.newsObj = { ...this.news };
+        this.fetchedData = true;
+      }
     },
     readMore() {
       this.readMore = true;
@@ -103,12 +109,9 @@ export default {
         if (this.fetchedData) {
           let card1 = `
            <v-list-item-content height="400px">
-            <v-list-item-title>${this.news.data.articles[index].source.name}</v-list-item-title>
-                <v-list-item-subtitle>${this.news.data.articles[index].publishedAt}</v-list-item-subtitle>
-                <v-list-item-title>${this.news.data.articles[index].title}</v-list-item-title>
-               
-
-
+            <v-list-item-title>${this.newsObj?.data?.articles[index]?.source.name}</v-list-item-title>
+                <v-list-item-subtitle>${this.newsObj?.data?.articles[index]?.publishedAt}</v-list-item-subtitle>
+                <v-list-item-title>${this.newsObj?.data?.articles[index]?.title}</v-list-item-title>
                 <v-list-item-subtitle class="subtitle-style">
                   {{item.content && item.content.slice(0, 200)}}
                   <span>
@@ -120,11 +123,11 @@ export default {
 
           let card2 = `
             <v-list-item-content>
-                    <img src="${this.news.data.articles[index].urlToImage}" alt="image"/>
+                    <img src="${this.newsObj.data.articles[index]?.urlToImage}" alt="image"/>
             </v-list-item-content>
       `;
 
-          if (this.news.data.articles[index]) {
+          if (this.newsObj?.data?.articles[index]) {
             return this.rowLength % 2 ||
               (this.rowLength * 2 + index) % (this.rowLength * 2) >=
                 this.rowLength
@@ -158,8 +161,8 @@ export default {
     },
     async updateData() {
       console.log(this.search);
-      let test = await data.getSearchHeadline(this.search);
-      console.log(test);
+      this.newsObj = await data.getSearchHeadline(this.search);
+      // console.log(test);
       // this.data.getSearchHeadline(this.search);
     }
   }
