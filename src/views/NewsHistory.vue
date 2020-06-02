@@ -39,13 +39,10 @@ export default {
     console.log(this);
   },
   computed: {
-    // ...mapState(["getNewsHistory"]),
     ...mapGetters(["getNewsHistory"])
   },
   methods: {
-    // ...mapActions(["getNewsHistoryAction"]),
     loadHistory() {
-      // await this.getNewsHistory();
       this.test = this.getNewsHistory();
       this.test.forEach(element => {
         console.log(element);

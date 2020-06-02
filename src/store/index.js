@@ -42,7 +42,6 @@ const actions = {
     commit(GET_HISTORY, history);
   },
   async addHistoryAction({ commit }, addHistory) {
-    // const addHistory = data.addHero(addHistory);
     commit(ADD_HISTORY, addHistory);
   },
 };
@@ -50,21 +49,10 @@ const getters = {
   getNewsBySourceName: (state) => (sourceName) => {
     console.log("sourcing", sourceName);
     return state.news.data.articles.find((n) => n.source.name === sourceName);
-    // return state.news.data.articles.filter(
-    //   (n) => n.source.name === element.name
-    // );
-
-    // return state.news.data.articles.find((n) =>
-    //   sourceName.includes(n.source.name)
-    // );
   },
   getNewsHistory: (state) => () => {
     return state.history;
   },
-  //   getNewsBySourceName: (state) => (sourceName) =>
-  //     state.news.find((n) => n.sourceName === sourceName),
-  //   // getHeroById: (state) => (id) => state.heroes.find((h) => h.id === id),
-  // };
 };
 
 export default new Vuex.Store({

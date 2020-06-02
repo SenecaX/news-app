@@ -50,12 +50,6 @@ export default {
   },
   data() {
     return {
-      // news: [
-      //   {
-      //     author: "",
-      //     urlToImage: ""
-      //   }
-      // ],
       selectingSource: "",
       receivingFromChild: "",
       overlay: false,
@@ -71,30 +65,15 @@ export default {
   },
   async created() {
     await this.loadNews();
-
-    // this.newsObj = this.news;
-    //     console.log(this.news);
   },
-  mounted() {
-    // Object.assign({}, this.newsObj);
-    // console.log("this", this.news);
-    // console.log(this.news.data.article);
-  },
+  mounted() {},
   computed: {
-    // news() {
-    //   return this.$store.state.news;
-    // }
     ...mapGetters(["getNewsBySourceName"]),
     ...mapState(["news"])
   },
   methods: {
     ...mapActions(["getNewsAction", "addHistoryAction"]),
     async loadNews() {
-      // await data.getNews().then(res => {
-      //   // this.news = res["data"]["articles"];
-
-      //   this.fetchedData = true;
-      // });
       await this.getNewsAction();
       if (this.news.data && this.news.data?.articles) {
         this.newsObj = { ...this.news.data.articles };

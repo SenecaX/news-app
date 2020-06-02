@@ -77,14 +77,9 @@ export default {
   methods: {
     ...mapActions(["getNewsAction"]),
     async loadHeadlines() {
-      // await data.getNews().then(res => {
-      //   this.headlines = res["data"]["articles"];
-      // });
-
       await this.getNewsAction();
     },
     goToHeadline(headline) {
-      // this.$emit("newlySelectedHeadline", headline);
       this.$emit("newlySelectedHeadline", headline);
     },
     edit(value) {
