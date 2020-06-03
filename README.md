@@ -49,7 +49,7 @@ A second button opens a popup/dialog with a text field to modify the headline's 
 
 Display a history of the visited headlines - done
 
-Show off your CSS skills by making it look good & responsive - done
+Show off your CSS skills by making it look good & responsive - done (partly)
 
 Make an API call to this URL https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY to get the latest headlines from different sources - done
 
