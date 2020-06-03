@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row>
         <v-col :cols="2">
-          <Sources v-on:selectedSource="onClickSelectedSource"></Sources>
+          <Sources v-on:selectedSource="onClickSelectedSource" class="mobile-view"></Sources>
         </v-col>
 
         <v-col :cols="10" class="justify-content">
@@ -12,17 +12,15 @@
           <v-flex xs6>
             <v-text-field v-model="search" label="Search" @keyup="updateData();"></v-text-field>
           </v-flex>
-          <!-- <v-container fill-height fluid> -->
           <v-row align="center" justify="center">
             <v-progress-circular
               v-if="loading"
               :size="50"
               color="primary"
               indeterminate
-              style="margin-top: 10em;"
+              class="progress-style"
             ></v-progress-circular>
           </v-row>
-          <!-- </v-container> -->
           <v-layout row v-if="fetchedData" class="space-around">
             <v-flex
               lg3
@@ -96,7 +94,10 @@ export default {
       this.readMore = true;
     },
     swapCondition(index) {
-      if (index !== -1) {
+      if (
+        index !== -1 ||
+        (index !== undefined && Object.keys(this.newsObj).length !== 0)
+      ) {
         if (this.fetchedData) {
           let card1 = `
            <div class="card infoText">
@@ -125,6 +126,7 @@ export default {
       `;
 
           if (this.newsObj[index]) {
+            //TODO: to refactor
             return this.rowLength % 2 ||
               (this.rowLength * 2 + index) % (this.rowLength * 2) >=
                 this.rowLength
@@ -147,12 +149,16 @@ export default {
       });
     },
     onClickSelectedSource(value) {
-      console.log("val", value);
       this.newsObj = this.getNewsBySourceName(value);
     },
     async updateData() {
-      console.log(this.search);
-      this.newsObj = await data.getSearchHeadline(this.search);
+      let deconstructObj;
+      if (this.search) {
+        deconstructObj = await data.getSearchHeadline(this.search);
+        this.newsObj = deconstructObj.data?.articles;
+      } else {
+        await this.loadNews();
+      }
     }
   }
 };
@@ -228,9 +234,19 @@ img {
   width: 100%;
 }
 
+.progress-style {
+  margin-top: 10em;
+}
+
 @media only screen and (min-width: 1024px) {
   .justify-content {
     padding-right: 4em;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .mobile-view {
+    display: none;
   }
 }
 </style>
