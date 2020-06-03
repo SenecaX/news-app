@@ -1,12 +1,24 @@
 <template>
   <v-content>
     <v-container>
+      <v-row align="center" justify="center">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          color="primary"
+          indeterminate
+          style="margin-top: 10em;"
+        ></v-progress-circular>
+      </v-row>
       <v-row>
         <v-col :cols="2">
-          <OtherHeadlines v-on:newlySelectedHeadline="otherHeadlinesClick"></OtherHeadlines>
+          <OtherHeadlines
+            v-on:newlySelectedHeadline="otherHeadlinesClick"
+            class="sidebar-headlines"
+          ></OtherHeadlines>
         </v-col>
 
-        <v-col :cols="10">
+        <v-col :cols="10" v-if="!loading">
           <v-layout row>
             <h1>{{this.news.title}}</h1>
             <div>
@@ -33,13 +45,22 @@ export default {
   data() {
     return {
       news: this.selected,
-      receivingFromChild: ""
+      receivingFromChild: "",
+      loading: true
     };
   },
-  created() {},
+  created() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
+  },
   methods: {
     ...mapActions(["addHistoryAction"]),
     async otherHeadlinesClick(value) {
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+      }, 2500);
       await this.addHistoryAction(value);
       this.receivingFromChild = value;
       this.news = this.receivingFromChild;
@@ -48,4 +69,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.sidebar-headlines {
+  height: 100vh;
+}
+</style>

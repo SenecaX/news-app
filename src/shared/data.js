@@ -41,6 +41,17 @@ const getSearchHeadline = async function(searchValue) {
   }
 };
 
+const getWrongUrl = async function(searchValue) {
+  console.log("searchValue", searchValue);
+  try {
+    const response = await axios.get(`https://newsapi.org/v2/sources?apiKey`);
+    return response;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
 // const addHistory = async function(history) {
 //   try {
 //     const response = await axios.post(`${API}/heroes`, hero);
@@ -56,4 +67,5 @@ export const data = {
   getNews,
   getSources,
   getSearchHeadline,
+  getWrongUrl,
 };

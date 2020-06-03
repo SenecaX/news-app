@@ -12,18 +12,27 @@
           <v-flex xs6>
             <v-text-field v-model="search" label="Search" @keyup="updateData();"></v-text-field>
           </v-flex>
-
-          <v-layout row v-if="fetchedData">
+          <!-- <v-container fill-height fluid> -->
+          <v-row align="center" justify="center">
+            <v-progress-circular
+              v-if="loading"
+              :size="50"
+              color="primary"
+              indeterminate
+              style="margin-top: 10em;"
+            ></v-progress-circular>
+          </v-row>
+          <!-- </v-container> -->
+          <v-layout row v-if="fetchedData" class="space-around">
             <v-flex
               lg3
               v-for="(item, index) in news.data.articles"
               :key="item.id"
               class="space-bottom"
             >
-              <v-card class="mx-auto" max-width="344" outlined>
+              <v-card class="mx-auto selection" max-width="280" min-height="200" outlined>
                 <v-list-item three-line>
                   <v-list-item-content
-                    height="400px"
                     v-html="swapCondition(index)"
                     v-on:click="selectedHeadling(item)"
                   ></v-list-item-content>
@@ -42,6 +51,7 @@
 import Sources from "@/components/Sources.vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { data } from "../shared";
+import moment from "moment";
 
 export default {
   name: "Home",
@@ -60,7 +70,8 @@ export default {
         noImg: false
       },
       newsObj: null,
-      search: ""
+      search: "",
+      loading: true
     };
   },
   async created() {
@@ -79,6 +90,7 @@ export default {
         this.newsObj = { ...this.news.data.articles };
         this.fetchedData = true;
       }
+      this.loading = false;
     },
     readMore() {
       this.readMore = true;
@@ -87,23 +99,29 @@ export default {
       if (index !== -1) {
         if (this.fetchedData) {
           let card1 = `
-           <v-list-item-content height="400px">
-            <v-list-item-title>${this.newsObj[index]?.source.name}</v-list-item-title>
-                <v-list-item-subtitle>${this.newsObj[index]?.publishedAt}</v-list-item-subtitle>
-                <v-list-item-title>${this.newsObj[index]?.title}</v-list-item-title>
-                <v-list-item-subtitle class="subtitle-style">
-                  {{item.content && item.content.slice(0, 200)}}
+           <div class="card infoText">
+                <div class="subtitle">${moment(
+                  this.newsObj[index]?.publishedAt
+                ).format("DD.MM.YYYY")}</div>
+                <h1 class="card-title">${this.newsObj[index]?.title.slice(
+                  0,
+                  25
+                )}</h1>
+                <v-spacer></v-spacer>
+                <div class="content">
+                  ${this.newsObj[index]?.content &&
+                    this.newsObj[index]?.content.slice(0, 100)}
                   <span>
                     <a href="#">Read more</a>
                   </span>
-                </v-list-item-subtitle>
-              </v-list-item-content>
+                </div>
+              </div>
       `;
 
           let card2 = `
-            <v-list-item-content>
-                    <img src="${this.newsObj[index]?.urlToImage}" alt="image"/>
-            </v-list-item-content>
+            <div class="card img">
+                    <img class="img-style" src="${this.newsObj[index]?.urlToImage}" alt="image"/>
+            </div>
       `;
 
           if (this.newsObj[index]) {
@@ -145,6 +163,18 @@ export default {
   margin-bottom: 20px;
 }
 
+.space-around {
+  justify-content: space-around;
+}
+
+.selection {
+  cursor: pointer;
+}
+
+.selection:hover {
+  background: blue;
+}
+
 img {
   width: (100% - 30vw);
   height: 25vh;
@@ -158,8 +188,44 @@ img {
   padding: 0;
 }
 
+.v-list-item__content:hover {
+  color: white;
+}
+
 .subtitle-style {
   height: 148px;
+}
+
+.infoText {
+  padding-top: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.subtitle {
+  font-size: small;
+  color: #666;
+}
+
+.content {
+  font-size: 0.8em;
+}
+
+.card .img {
+  height: 200px;
+}
+
+.img-style {
+  height: 26vh;
+  width: 100%;
 }
 
 @media only screen and (min-width: 1024px) {

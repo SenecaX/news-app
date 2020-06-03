@@ -75,15 +75,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getNewsAction"]),
+    ...mapActions(["getNewsAction", "updateHeadlineAction"]),
     async loadHeadlines() {
       await this.getNewsAction();
+      // this.updateHeadlineAction("test");
     },
     goToHeadline(headline) {
       this.$emit("newlySelectedHeadline", headline);
     },
     edit(value) {
       this.parentData = value;
+      console.log("entered");
     }
   }
 };

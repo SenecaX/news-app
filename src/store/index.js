@@ -6,6 +6,7 @@ import {
   GET_SOURCES,
   ADD_HISTORY,
   GET_HISTORY,
+  UPDATE_NEWS,
 } from "./mutation-types";
 
 Vue.use(Vuex);
@@ -43,6 +44,10 @@ const actions = {
   },
   async addHistoryAction({ commit }, addHistory) {
     commit(ADD_HISTORY, addHistory);
+  },
+  async updateHeadlineAction({ commit }, news) {
+    console.log("new", news);
+    commit({ UPDATE_NEWS, news });
   },
 };
 const getters = {
