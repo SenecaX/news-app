@@ -25,7 +25,7 @@
           <v-list-item-content>
             <v-list-item-title>
               <span v-on:click="goToHeadline(headline)">{{ headline.title.substring(0, 35) }}</span>
-              <span v-on:click="edit(headline)" style="padding-left: 35px;">
+              <span v-on:click="edit(headline)" class="p-0">
                 <EditPopup :parentData="headline"></EditPopup>
               </span>
             </v-list-item-title>
@@ -78,15 +78,19 @@ export default {
     ...mapActions(["getNewsAction", "updateHeadlineAction"]),
     async loadHeadlines() {
       await this.getNewsAction();
-      // this.updateHeadlineAction("test");
     },
     goToHeadline(headline) {
       this.$emit("newlySelectedHeadline", headline);
     },
     edit(value) {
       this.parentData = value;
-      console.log("entered");
     }
   }
 };
 </script>
+
+<style>
+.p-0 {
+  padding-left: 35px;
+}
+</style>

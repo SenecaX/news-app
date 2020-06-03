@@ -28,7 +28,7 @@
               :key="item.id"
               class="space-bottom"
             >
-              <v-card class="mx-auto selection" max-width="280" min-height="200" outlined>
+              <v-card class="mx-auto selection card-style" outlined>
                 <v-list-item three-line>
                   <v-list-item-content
                     v-html="swapCondition(index)"
@@ -58,15 +58,8 @@ export default {
   },
   data() {
     return {
-      selectingSource: "",
-      receivingFromChild: "",
-      overlay: false,
       rowLength: 4,
       fetchedData: false,
-      imgObj: {
-        hasImg: false,
-        noImg: false
-      },
       newsObj: null,
       search: "",
       loading: true
@@ -100,10 +93,10 @@ export default {
       ) {
         if (this.fetchedData) {
           let card1 = `
-           <div class="card infoText">
-                <div class="subtitle">${moment(
-                  this.newsObj[index]?.publishedAt
-                ).format("DD.MM.YYYY")}</div>
+           <div class="infoText">
+                <div>${moment(this.newsObj[index]?.publishedAt).format(
+                  "DD.MM.YYYY"
+                )}</div>
                 <h1 class="card-title">${this.newsObj[index]?.title.slice(
                   0,
                   25
@@ -111,17 +104,14 @@ export default {
                 <v-spacer></v-spacer>
                 <div class="content">
                   ${this.newsObj[index]?.content &&
-                    this.newsObj[index]?.content.slice(0, 100)}
-                  <span>
-                    <a href="#">Read more</a>
-                  </span>
+                    this.newsObj[index]?.content.slice(0, 100)}...
                 </div>
               </div>
       `;
 
           let card2 = `
             <div class="card img">
-                    <img class="img-style" src="${this.newsObj[index]?.urlToImage}" alt="image"/>
+                    <img src="${this.newsObj[index]?.urlToImage}" alt="image"/>
             </div>
       `;
 
@@ -178,12 +168,21 @@ export default {
 }
 
 .selection:hover {
-  background: blue;
+  background: #1e88e5;
 }
 
 img {
-  width: (100% - 30vw);
-  height: 25vh;
+  height: 200px;
+  width: 280px;
+}
+
+.card-style {
+  height: 200px;
+  width: 280px;
+}
+
+.card-style:hover {
+  color: white;
 }
 
 .v-list-item {
@@ -200,14 +199,21 @@ img {
 
 .subtitle-style {
   height: 148px;
+  color: white !important;
 }
 
 .infoText {
-  padding-top: 2em;
+  padding-top: 4em;
   padding-left: 2em;
   padding-right: 2em;
   display: flex;
   flex-direction: column;
+  font-size: small;
+  color: #666;
+}
+
+.infoText:hover {
+  color: white;
 }
 
 .card-title {
@@ -216,22 +222,12 @@ img {
   margin-bottom: 0.5em;
 }
 
-.subtitle {
-  font-size: small;
-  color: #666;
-}
-
 .content {
-  font-size: 0.8em;
+  font-size: 1em;
 }
 
 .card .img {
   height: 200px;
-}
-
-.img-style {
-  height: 26vh;
-  width: 100%;
 }
 
 .progress-style {

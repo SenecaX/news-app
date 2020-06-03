@@ -6,16 +6,15 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>Modify the headline.</v-card-title>
+        <v-card-title class="headline primary lighten-2" primary-title>Modify the headline.</v-card-title>
 
         <v-text-field v-model="childData.title" :counter="100" label="headline" required></v-text-field>
         <span v-if="validate">
-          <p style="font-size: 12px; color: red">Please enter a headling with length less than 100.</p>
+          <p class="popup-text-style">Please enter a headling with length less than 100.</p>
         </span>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          {{this.childData.title.length}}
           <v-btn color="primary" text @click="dialog = false" :disabled="validate">Modify</v-btn>
           <v-btn color="primary" text @click="dialog = false">Cancel</v-btn>
         </v-card-actions>
@@ -48,3 +47,10 @@ export default {
   methods: {}
 };
 </script>
+
+<style>
+.popup-text-style {
+  font-size: 12px;
+  color: red;
+}
+</style>

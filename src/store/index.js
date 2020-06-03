@@ -46,13 +46,11 @@ const actions = {
     commit(ADD_HISTORY, addHistory);
   },
   async updateHeadlineAction({ commit }, news) {
-    console.log("new", news);
     commit({ UPDATE_NEWS, news });
   },
 };
 const getters = {
   getNewsBySourceName: (state) => (sourceName) => {
-    console.log("sourcing", sourceName);
     return state.news.data.articles.find((n) => n.source.name === sourceName);
   },
   getNewsHistory: (state) => () => {
